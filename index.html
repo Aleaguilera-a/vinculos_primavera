@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi proyecto · Enlaces</title>
+<meta name="description" content="Bases, formularios y registros del proyecto.">
+<meta name="theme-color" content="#2A1A3A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎭</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#2A1A3A;         /* fondo berenjena */
+    --bg-2:#3A2550;
+    --paper:#F2E6D3;      /* botones */
+    --ink:#231530;        /* texto sobre botones */
+    --light:#F4C15D;      /* acento luz de escenario */
+    --muted:#C9B8DA;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:inherit;margin:0}
+  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{
+    min-height:100%;
+    background:var(--bg);
+    color:var(--paper);
+    font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* El único momento de movimiento: un foco que se enciende al cargar */
+  .spot{
+    position:fixed;inset:-20% -40% auto;height:70vh;pointer-events:none;
+    background:radial-gradient(ellipse at 50% 0%, rgba(244,193,93,.28), transparent 62%);
+    opacity:0;animation:on 1.4s .2s ease-out forwards;
+  }
+  @keyframes on{to{opacity:1}}
+
+  main{
+    position:relative;max-width:440px;margin:0 auto;
+    padding:3.5rem 1.25rem 2.5rem;
+  }
+  header{text-align:center;margin-bottom:2.25rem}
+  .avatar{
+    width:96px;height:96px;margin:0 auto 1.1rem;border-radius:50%;
+    display:grid;place-items:center;overflow:hidden;
+    background:var(--bg-2);border:2px solid var(--light);
+    font-size:2.6rem;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  h1{
+    font-weight:800;font-size:clamp(2rem,9vw,2.6rem);
+    line-height:1;letter-spacing:-.02em;
+  }
+  .bio{margin-top:.7rem;color:var(--muted);font-size:1rem;line-height:1.45}
+
+  nav{display:flex;flex-direction:column;gap:.75rem}
+  .group-title{
+    margin:1.4rem 0 .2rem;font-size:.95rem;font-weight:600;color:var(--light);
+  }
+  .group-title:first-child{margin-top:0}
+  .link{
+    display:flex;align-items:center;gap:.9rem;
+    padding:1rem 1.1rem;border-radius:14px;
+    background:var(--paper);color:var(--ink);text-decoration:none;
+    transition:transform .12s ease, box-shadow .12s ease;
+    box-shadow:0 4px 0 rgba(0,0,0,.35);
+  }
+  .link:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+  .link:focus-visible{outline:3px solid var(--light);outline-offset:3px}
+  .icon{font-size:1.5rem;flex:none;width:2rem;text-align:center}
+  .txt{display:flex;flex-direction:column;min-width:0}
+  .txt strong{font-weight:600;font-size:1.05rem;line-height:1.2}
+  .txt span{font-size:.85rem;opacity:.7;margin-top:.15rem}
+  .link.highlight{background:var(--light)}
+
+  footer{margin-top:2.5rem;text-align:center;color:var(--muted);font-size:.85rem}
+  .social{display:flex;justify-content:center;gap:1.25rem;margin-bottom:1rem}
+  .social a{color:var(--paper);text-decoration:none;font-weight:600}
+  .social a:focus-visible{outline:2px solid var(--light);outline-offset:4px;border-radius:4px}
+
+  @media (prefers-reduced-motion:reduce){
+    .spot{animation:none;opacity:1}
+    .link{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="spot" aria-hidden="true"></div>
+<main>
+  <header>
+    <div class="avatar" id="avatar"></div>
+    <h1 id="name"></h1>
+    <p class="bio" id="bio"></p>
+  </header>
+  <nav id="links"></nav>
+  <footer>
+    <div class="social" id="social"></div>
+    <p id="foot"></p>
+  </footer>
+</main>
+
+<script>
+/* ============================================================
+   EDITA SOLO ESTA SECCIÓN
+   - avatar: un emoji, o la URL de una imagen (ej. "foto.jpg"
+     subida junto a este archivo)
+   - highlight: true pinta el botón en color acento
+   ============================================================ */
+const PERFIL = {
+  avatar: "🎭",
+  nombre: "Festival Primavera Norte",
+  bio: "ARTE.TERRITORIO.RESISTENCIA",
+  pie: "© 2026"
+};
+
+const GRUPOS = [
+  {
+    titulo: "Convocatoria",
+    enlaces: [
+      { icono: "📄", texto: "Bases 2026", detalle: "Descarga el PDF", url: "https://drive.google.com/file/d/1iSWKPKACmeqjSkqsP5LgPLWrx8T9rFoh/view" },
+      { icono: "📝", texto: "Formulario de postulación", detalle: "Hazlo con paciencia y tiempo", url: "https://forms.gle/814gmTSdiHze1EjdA", highlight: true },
+    ]
+  },
+  {
+    titulo: "Registros",
+    enlaces: [
+      { icono: "🎬", texto: "Registro audiovisual", detalle: "Videos del proceso", url: "https://youtube.com/..." },
+      { icono: "📷", texto: "Fotografías", detalle: "Galería completa", url: "https://drive.google.com/..." },
+    ]
+  },
+  {
+    titulo: "Contacto",
+    enlaces: [
+      { icono: "✉️", texto: "Escríbenos", detalle: "fest.primaveranorte04@gmail.com", url: "mailto:fest.primaveranorte04@gmail.com" },
+    ]
+  }
+];
+
+const REDES = [
+  { texto: "Instagram", url: "https://instagram.com/primaveranorte.festival" },
+  { texto: "YouTube",   url: "https://youtube.com/" },
+];
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const av = PERFIL.avatar || "";
+$("avatar").innerHTML = /\.(png|jpe?g|webp|gif|svg)$|^https?:|^data:/i.test(av)
+  ? `<img src="${esc(av)}" alt="">` : esc(av);
+$("name").textContent = PERFIL.nombre;
+$("bio").textContent = PERFIL.bio;
+$("foot").textContent = PERFIL.pie;
+document.title = PERFIL.nombre;
+
+$("links").innerHTML = GRUPOS.map(g => `
+  ${g.titulo ? `<p class="group-title">${esc(g.titulo)}</p>` : ""}
+  ${g.enlaces.map(l => `
+    <a class="link${l.highlight ? " highlight" : ""}" href="${esc(l.url)}"
+       ${/^https?:/.test(l.url) ? 'target="_blank" rel="noopener"' : ""}>
+      <span class="icon" aria-hidden="true">${esc(l.icono)}</span>
+      <span class="txt"><strong>${esc(l.texto)}</strong>${l.detalle ? `<span>${esc(l.detalle)}</span>` : ""}</span>
+    </a>`).join("")}
+`).join("");
+
+$("social").innerHTML = REDES.map(r =>
+  `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.texto)}</a>`).join("");
+</script>
+</body>
+</html>
