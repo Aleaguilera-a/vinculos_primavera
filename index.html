@@ -16,7 +16,7 @@
     --bg-2:#3A2550;
     --paper:#F2E6D3;      /* botones */
     --ink:#231530;        /* texto sobre botones */
-    --light:#F4C15D;      /* acento luz de escenario */
+    --light:#F4C15D;      /*  luz*/
     --muted:#C9B8DA;
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
@@ -32,7 +32,7 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  /* El único momento de movimiento: un foco que se enciende al cargar */
+
   .spot{
     position:fixed;inset:-20% -40% auto;height:70vh;pointer-events:none;
     background:radial-gradient(ellipse at 50% 0%, rgba(244,193,93,.28), transparent 62%);
@@ -105,12 +105,7 @@
 </main>
 
 <script>
-/* ============================================================
-   EDITA SOLO ESTA SECCIÓN
-   - avatar: un emoji, o la URL de una imagen (ej. "foto.jpg"
-     subida junto a este archivo)
-   - highlight: true pinta el botón en color acento
-   ============================================================ */
+
 const PERFIL = {
   avatar: "assets/logo.png",
   nombre: "Festival Primavera Norte",
@@ -145,7 +140,7 @@ const REDES = [
   { texto: "Instagram", url: "https://instagram.com/primaveranorte.festival" },
   { texto: "YouTube",   url: "https://youtube.com/" },
 ];
-/* ============================================================ */
+
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
